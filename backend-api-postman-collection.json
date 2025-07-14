@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-abcdef123456",
+		"name": "Recipe Management API",
+		"description": "Collection for testing the Recipe Management System API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get Auth Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"authToken\", jsonData.access);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"chef_tony\",\n    \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/token/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"token",
+								""
+							]
+						},
+						"description": "Log in with a user to receive a JWT access token. The test script automatically saves the access token to an environment variable `authToken`."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recipes",
+			"item": [
+				{
+					"name": "List Recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								""
+							]
+						},
+						"description": "Returns a list of recipes for the authenticated user's restaurant."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Recipe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Spaghetti Carbonara\",\n    \"instructions\": \"1. Cook pasta. 2. Mix eggs and cheese. 3. Combine everything.\",\n    \"yield_amount\": \"2 servings\",\n    \"ingredients\": [\n        {\n            \"name\": \"Spaghetti\",\n            \"quantity\": 200,\n            \"unit\": \"grams\"\n        },\n        {\n            \"name\": \"Eggs\",\n            \"quantity\": 2,\n            \"unit\": \"large\"\n        },\n        {\n            \"name\": \"Pecorino Cheese\",\n            \"quantity\": 50,\n            \"unit\": \"grams\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								""
+							]
+						},
+						"description": "Creates a new recipe. The new recipe will be automatically associated with the authenticated user's restaurant."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recipe Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								"1",
+								""
+							],
+							"description": "Replace '1' with the ID of the recipe you want to retrieve."
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Spaghetti Carbonara (Updated)\",\n    \"instructions\": \"1. Cook pasta. 2. Mix eggs and cheese. 3. Combine everything with crispy pancetta.\",\n    \"yield_amount\": \"2 large servings\",\n    \"ingredients\": [\n        {\n            \"name\": \"Spaghetti\",\n            \"quantity\": 250,\n            \"unit\": \"grams\"\n        },\n        {\n            \"name\": \"Eggs\",\n            \"quantity\": 3,\n            \"unit\": \"large\"\n        },\n        {\n            \"name\": \"Pecorino Cheese\",\n            \"quantity\": 75,\n            \"unit\": \"grams\"\n        },\n        {\n            \"name\": \"Pancetta\",\n            \"quantity\": 100,\n            \"unit\": \"grams\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								"1",
+								""
+							],
+							"description": "Replace '1' with the ID of the recipe you want to update."
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								"1",
+								""
+							],
+							"description": "Replace '1' with the ID of the recipe you want to delete."
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
