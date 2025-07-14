@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +26,13 @@ SECRET_KEY = 'django-insecure--z9&@l&87(vh_^uxlbxcj5p755*-!mdox0xhmr#kzt^-bo(4bm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '*' ]
 
+TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    os.getenv('FRONTEND_URL'),
+    'https://lab37hw-backend-production.up.railway.app/'
+]
 
 # Application definition
 
@@ -125,4 +131,5 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    os.getenv('FRONTEND_URL'),
 ]
