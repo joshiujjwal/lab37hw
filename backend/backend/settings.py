@@ -28,9 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ '*' ]
 
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 TRUSTED_ORIGINS = [
     'http://localhost:3000',
-    os.getenv('FRONTEND_URL'),
+    FRONTEND_URL,
     'https://lab37hw-backend-production.up.railway.app/'
 ]
 
@@ -129,7 +130,4 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    os.getenv('FRONTEND_URL'),
-]
+CORS_ALLOWED_ORIGINS = TRUSTED_ORIGINS
