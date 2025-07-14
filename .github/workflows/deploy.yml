@@ -45,7 +45,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Railway CLI
-        run: npm install -g railway
+        run: npm install -g @railway/cli
 
       - name: Set Railway Build Command
         run: echo 'pip install -r requirements.txt && python manage.py migrate && python manage.py seed_data' > build.sh
