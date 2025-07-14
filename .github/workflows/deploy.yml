@@ -47,12 +47,9 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Set Railway Build Command
-        run: echo 'pip install -r requirements.txt && python manage.py migrate && python manage.py seed_data' > build.sh
-
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
         run: |
-          railway up --build-cmd './build.sh'
+          railway up --ci --service=lab37hw-backend

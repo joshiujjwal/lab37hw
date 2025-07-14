@@ -32,7 +32,7 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 TRUSTED_ORIGINS = [
     'http://localhost:3000',
     FRONTEND_URL,
-    'https://lab37hw-backend-production.up.railway.app/'
+    'https://lab37hw-backend-production.up.railway.app'
 ]
 
 # Application definition
