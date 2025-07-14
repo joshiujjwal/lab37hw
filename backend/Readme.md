@@ -92,7 +92,7 @@ All endpoints are prefixed with `/api/`. Authentication is required for all reci
 |-------------|--------------------|---------------------------------------------|
 | POST        | /token/            | Obtain a JWT access token.                  |
 | POST        | /token/refresh/    | Refresh an expired JWT access token.        |
-| GET         | /recipes/          | List all recipes for the user's restaurant. |
+| GET         | /recipes/          | List all recipes for the user's restaurant. Can be filtered with ?search=term. |
 | POST        | /recipes/          | Create a new recipe.                        |
 | GET         | /recipes/{id}/     | Retrieve a specific recipe.                 |
 | PUT/PATCH   | /recipes/{id}/     | Update a specific recipe.                   |

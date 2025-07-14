@@ -149,3 +149,29 @@ class RecipeAPITests(APITestCase):
         )
         response = self.client.delete(f'/api/recipes/{other_recipe.id}/', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_search_by_title(self):
+        """
+        Ensure user can search for recipes by title.
+        """
+        response = self.client.get('/api/recipes/?search=Margherita', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], 'Margherita Pizza')
+
+    def test_search_by_ingredient(self):
+        """
+        Ensure user can search for recipes by ingredient name.
+        """
+        response = self.client.get('/api/recipes/?search=Pepperoni', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], 'Pepperoni Pizza')
+        
+    def test_search_with_no_results(self):
+        """
+        Ensure search with no matches returns an empty list.
+        """
+        response = self.client.get('/api/recipes/?search=NonExistent', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 0)

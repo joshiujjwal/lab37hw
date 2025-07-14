@@ -1,12 +1,11 @@
 from rest_framework import viewsets, permissions
+from rest_framework.filters import SearchFilter
 from .models import Recipe
 from .serializers import RecipeDetailSerializer, RecipeListSerializer
 
 # Custom permission to only allow users to see recipes from their own restaurant.
 class IsOwnerOfRecipe(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        # A user's profile must be linked to the same restaurant as the recipe.
-        # Handle cases where profile might not exist for a user.
         if hasattr(request.user, 'profile'):
             return obj.restaurant == request.user.profile.restaurant
         return False
@@ -14,8 +13,13 @@ class IsOwnerOfRecipe(permissions.BasePermission):
 class RecipeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows recipes to be viewed or edited.
+    Includes search functionality on title and ingredients.
     """
     permission_classes = [permissions.IsAuthenticated, IsOwnerOfRecipe]
+    
+    # --- SEARCH CONFIGURATION ---
+    filter_backends = [SearchFilter]
+    search_fields = ['title', 'ingredients__ingredient__name'] # Search by recipe title or ingredient name
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -30,8 +34,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if hasattr(user, 'profile'):
             restaurant = user.profile.restaurant
-            return Recipe.objects.filter(restaurant=restaurant).order_by('-updated_at')
-        # Return an empty queryset if the user has no profile/restaurant
+            # The queryset is now automatically filtered by SearchFilter if a 'search' query param is present
+            return Recipe.objects.filter(restaurant=restaurant).order_by('-updated_at').distinct()
         return Recipe.objects.none()
 
     def perform_create(self, serializer):

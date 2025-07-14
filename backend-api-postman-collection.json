@@ -76,6 +76,36 @@
 					"response": []
 				},
 				{
+					"name": "Search Recipes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/?search=pizza",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pizza"
+								}
+							]
+						},
+						"description": "Search for recipes by title or ingredient name. Change the value of the 'search' parameter to test."
+					},
+					"response": []
+				},
+				{
 					"name": "Create Recipe",
 					"request": {
 						"method": "POST",
